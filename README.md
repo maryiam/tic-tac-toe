@@ -1,5 +1,8 @@
 This application named `tic-tac-toe` is an interactive game built with React.
 
+## Online Demo 
+You can test the game application `tic-tac-toe` available here [demo link](https://maryiam.github.io/tic-tac-toe/) 
+
 ## Available commands
 
   - `npm start` : 
