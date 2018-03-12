@@ -1,4 +1,4 @@
-export function getWinner(squares) {
+export function getWinnerInfo(squares) {
   const wonPossibilities = [
     [0, 1, 2],
     [3, 4, 5],
@@ -14,8 +14,8 @@ export function getWinner(squares) {
     let [a, b, c] = wonPossibilities[i];
     if (squares[a] != null && squares[a] === squares[b] && squares[a] === squares[c]) {
       return {
-        name : squares[a],
-        row : wonPossibilities[i]
+        name: squares[a],
+        row: wonPossibilities[i]
       };
     }
   };
@@ -23,7 +23,7 @@ export function getWinner(squares) {
   return null;
 }
 
-export function isFull(array) {
+export function isBoardFull(array) {
   return removeNullItems(array).length === array.length;
 }
 
@@ -36,13 +36,9 @@ export function getYPosition(position) {
 }
 
 export function isSquareInWinnerRow(row, index) {
-  return row.find((val, numb) => {
-    return val === index;
-  });
+  return row.find(val => val === index)  !== undefined;
 }
-
 
 function removeNullItems(array) {
   return array.filter(elem => elem !== null);
 }
-

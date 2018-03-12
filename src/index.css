@@ -1,58 +1,119 @@
 body {
-  font: 14px "Century Gothic", Futura, sans-serif;
-  margin: 20px;
+    font: 14px "Century Gothic", Futura, sans-serif;
+    margin: 20px;
 }
 
-ol, ul {
-  padding-left: 30px;
+ol,
+ul {
+    padding-left: 30px;
+}
+
+ol {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+li {
+  min-width: 130px;
+  margin: 3px 0 3px 0;
+}
+
+li button {
+  width: 100%;
 }
 
 .board-row:after {
-  clear: both;
-  content: "";
-  display: table;
+    clear: both;
+    content: "";
+    display: table;
 }
 
 .status {
-  margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .square {
-  background: #fff;
-  border: 1px solid #999;
-  float: left;
-  font-size: 24px;
-  font-weight: bold;
-  line-height: 34px;
-  height: 34px;
-  margin-right: -1px;
-  margin-top: -1px;
-  padding: 0;
-  text-align: center;
-  width: 34px;
+    background: #fff;
+    border: 1px solid #999;
+    float: left;
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 34px;
+    height: 60px;
+    margin-right: -1px;
+    margin-top: -1px;
+    padding: 0;
+    text-align: center;
+    width: 60px;
 }
 
 .square:focus {
-  outline: none;
+    outline: none;
 }
 
 .kbd-navigation .square:focus {
-  background: #ddd;
+    background: #ddd;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    transform: translate(0%, 20%);
+    text-align: center;
+    min-height: 510px;
 }
 
 .game {
-  display: flex;
-  flex-direction: row;
+    display: flex;
+    justify-content: center;
+    margin: 20px 0 20px 0;
+    height: 100%;
+}
+
+.game-board {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 0 60px 0 60px;
 }
 
 .game-info {
-  margin-left: 20px;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+}
+
+.game-info button {
+  padding: 5px 0 5px 0;
+  border-radius: 5px;
+}
+
+.offset {
+    min-width: 200px;
+}
+
+.status {
+    font-size: 15px;
 }
 
 .bold {
-  font-weight: bold;
+    font-weight: bold;
 }
 
-.square.highlight {
-  color: #D4AF37;
+.title {
+    color: #D4AF37;
+}
+
+.winner,
+.highlight {
+    color: #FAD766;
+}
+
+.over {
+    color: #FF8E96;
+}
+
+.processing {
+    color: #808080;
 }

@@ -1,6 +1,10 @@
-import * as helpers from './helpers';
 import React from 'react';
 import Board from './Borad';
+import BoardInfo from './BoardInfo';
+import {
+  isBoardFull,
+  getWinnerInfo
+} from './helpers';
 
 class Game extends React.Component {
   constructor(props) {
@@ -8,7 +12,7 @@ class Game extends React.Component {
     this.state = {
       history: [{
         squares: new Array(9).fill(null),
-        position: {}
+        position: null
       }],
       step: 0,
       player: 'X'
@@ -20,7 +24,7 @@ class Game extends React.Component {
     const squares = history[history.length - 1].squares.slice();
     const current = this.state.player;
 
-    if (squares[i] !== null || helpers.getWinner(squares)) {
+    if (squares[i] !== null || getWinnerInfo(squares)) {
       return;
     }
 
@@ -30,25 +34,15 @@ class Game extends React.Component {
       {
         history: history.concat({
           squares: squares,
-          position: {
-            x: helpers.getXPosition(i),
-            y: helpers.getYPosition(i)
-          }
+          position: i
         }),
-        ascendedSorted: true,
         player: current === 'X' ? 'O' : 'X',
         step: history.length
       }
     )
   }
 
-  sortMoves() {
-    this.setState({
-      ascendedSorted: !this.state.ascendedSorted
-    });
-  }
-
-  goBackTo(index) {
+  jumpToMoveHandle(index) {
     this.setState({
       step: index,
       player: index % 2 === 0 ? 'X' : 'O',
@@ -59,41 +53,38 @@ class Game extends React.Component {
   render() {
     const history = this.state.history;
     let current = history[this.state.step];
-    const winner = helpers.getWinner(current.squares);
-    const row = winner ? winner.row : [];
-    const over = helpers.isFull(current.squares);
-    const moves = history.map((elem, move) =>
-      (
-        <li key={move}>
-          <button onClick={this.goBackTo.bind(this, move)} className={this.state.step === move ? 'bold' : ''}>
-            Go to {move === 0 ? 'game start' : `move #${move} (${elem.position.x}, ${elem.position.y})`}
-          </button>
-        </li>
-      )
-    );
+    const winnerInfo = getWinnerInfo(current.squares);
+    const gameOver = isBoardFull(current.squares);
+
     let status;
 
-    if (winner) {
-      status = `Winner is :  ${winner.name}`
-    } else if (!winner && !over) {
-      status = `Next player :  ${this.state.player}`;
+    if (winnerInfo) {
+      status = <span className="processing">Winner is :  <span className="winner bold">palyer {winnerInfo.name}</span></span>
+    } else if (!winnerInfo && !gameOver) {
+      status = <span className="processing">Next player :  {this.state.player}</span>;
     } else {
-      status = 'Game over : The game ended in a draw';
+      status = <span className="over">Game over : The game ended in a draw</span>;
     }
 
     return (
-      <div className="game">
-        <div className="game-board">
-          <Board squares={current.squares} onPlayTurn={this.handlePlayTurn.bind(this)} winnerRow={row} />
-        </div>
-        <div className="game-info">
-          <div>{status}</div>
-          <button onClick={this.sortMoves.bind(this)}>Sort moves</button>
-          <ol>{this.state.ascendedSorted ? moves : moves.reverse()}</ol>
+      <div className="container">
+        <h1 className="title">TIC TAC TOE</h1>
+        <div className="status">{status}</div>
+        <div className="game">
+          <div className="offset"></div>
+          <Board
+            squares={current.squares}
+            onPlayTurn={this.handlePlayTurn.bind(this)}
+            winnerInfo={winnerInfo}
+          />
+          <BoardInfo
+            jumpToMove={this.jumpToMoveHandle.bind(this)}
+            history={history}
+            step={this.state.step}
+          />
         </div>
       </div>
     );
   }
 }
-
 export default Game;
